@@ -3,6 +3,7 @@ const socketIo = require('socket.io');
 const http = require('http');
 
 const router = require('./routes/router');
+const { addUser, removeUser, getUser, getUserInRoom } = require('./users');
 
 const PORT = process.env.PORT || 5000;
 
@@ -12,6 +13,10 @@ const io = socketIo(server, { cors: { origin: '*' } });
 
 io.on('connection', (socket) => {
   console.log('We have a new Connection!');
+
+  socket.on('join', ({ name, room }, callback) => {
+    console.log(name, room);
+  });
 
   socket.on('disconnect', () => {
     console.log('User had left!');
