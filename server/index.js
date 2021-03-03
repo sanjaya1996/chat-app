@@ -8,7 +8,15 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+const io = socketIo(server, { cors: { origin: '*' } });
+
+io.on('connection', (socket) => {
+  console.log('We have a new Connection!');
+
+  socket.on('disconnect', () => {
+    console.log('User had left!');
+  });
+});
 
 app.use(router);
 
